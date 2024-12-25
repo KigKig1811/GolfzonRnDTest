@@ -8,7 +8,7 @@ plugins {
 }
 
 android {
-    namespace = "com.xt.ore_data"
+    namespace = "com.xt.core_data"
     buildFeatures {
         buildConfig = true
     }
@@ -21,6 +21,7 @@ dependencies {
 
     // core
     implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.paging.common.android)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso)

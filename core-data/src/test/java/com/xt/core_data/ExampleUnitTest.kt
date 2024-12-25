@@ -1,4 +1,4 @@
-package com.xt.ore_data
+package com.xt.core_data
 
 import org.junit.Test
 

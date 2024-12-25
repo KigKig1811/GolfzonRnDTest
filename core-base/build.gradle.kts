@@ -1,3 +1,4 @@
+import com.xt.golfzon.Configuration
 import com.xt.golfzon.Modules
 
 plugins {
