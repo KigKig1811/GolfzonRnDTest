@@ -21,4 +21,9 @@ dependencyResolutionManagement {
 
 rootProject.name = "GolfzonRnDTest"
 include(":app")
- 
+include(":ui-home")
+include(":core-base")
+include(":core-domain")
+include(":core-data")
+include(":resource")
+include(":share")

@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.golfzon.simpletest"
+    namespace = "com.xt.ui_home"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.golfzon.simpletest"
+        applicationId = "com.xt.ui_home"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
