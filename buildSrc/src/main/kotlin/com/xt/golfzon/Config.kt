@@ -40,7 +40,7 @@ sealed class ProductFlavor(
         BuildConfigField(
             type = String::class.java.simpleName,
             name = "BASE_URL",
-            value = "\"\""
+            value = "\"https://api.thecatapi.com/\""
         ),
     )
 
@@ -50,7 +50,7 @@ sealed class ProductFlavor(
         BuildConfigField(
             type = String::class.java.simpleName,
             name = "BASE_URL",
-            value = "\"\""
+            value = "\"https://api.thecatapi.com/\""
         ),
     )
 }
