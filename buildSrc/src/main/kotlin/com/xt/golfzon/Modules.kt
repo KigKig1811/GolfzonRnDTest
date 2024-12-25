@@ -6,6 +6,6 @@ object Modules {
     const val CORE_DOMAIN = ":core-domain"
     const val CORE_DATA = ":core-data"
     const val RESOURCE = ":resource"
-    const val SHARED = ":shared"
+    const val SHARED = ":share"
     const val UI_HOME = ":ui-home"
 }
