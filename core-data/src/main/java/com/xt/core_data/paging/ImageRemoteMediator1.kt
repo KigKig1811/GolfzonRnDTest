@@ -13,6 +13,7 @@ import com.xt.core_data.room.enity.ImageEntity
 import com.xt.core_data.room.enity.RemoteKey
 import com.xt.core_domain.model.ImageModel
 import retrofit2.HttpException
+import timber.log.Timber
 import java.io.IOException
 
 @OptIn(ExperimentalPagingApi::class)
@@ -30,10 +31,9 @@ class ImageRemoteMediator1(
                 LoadType.REFRESH -> 0
                 LoadType.PREPEND -> return MediatorResult.Success(endOfPaginationReached = true)
                 LoadType.APPEND -> {
-                    val lastItem = state.lastItemOrNull() ?: return MediatorResult.Success(
-                        endOfPaginationReached = true
-                    )
-                    val remoteKey = remoteKeyDao.remoteKey(query = "image_list_${lastItem.id}")
+                 //   val lastItem = state.lastItemOrNull() ?: return MediatorResult.Success(endOfPaginationReached = true)
+                    val remoteKey = remoteKeyDao.remoteKey(query = "image_list")
+                    Timber.d("KKK remoteKey : ${remoteKey.nextKey}")
                     if (remoteKey.nextKey == null) {
                         return MediatorResult.Success(endOfPaginationReached = true)
                     }
@@ -54,7 +54,7 @@ class ImageRemoteMediator1(
                 remoteKeyDao.clearRemoteKeys()
             }
 
-            remoteKeyDao.insert(RemoteKey("image_list_${page}", page + 1))
+            remoteKeyDao.insert(RemoteKey("image_list", page + 1))
             imageDao.insertAll(response.map { it.toImageEntity() })
 
             MediatorResult.Success(endOfPaginationReached = response.isEmpty())

@@ -5,6 +5,6 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "remote_keys")
 data class RemoteKey(
-    @PrimaryKey val query: String,
+    @PrimaryKey val imageId: String,
     val nextKey: Int?
 )

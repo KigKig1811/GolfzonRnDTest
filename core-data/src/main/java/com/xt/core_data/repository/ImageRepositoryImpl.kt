@@ -9,6 +9,7 @@ import com.xt.core_data.mapper.toImageEntity
 import com.xt.core_data.mapper.toImageModel
 import com.xt.core_data.paging.ConcatenationPagingSource
 import com.xt.core_data.paging.ImagePagingSource
+import com.xt.core_data.paging.ImageRemoteMediator
 import com.xt.core_data.paging.ImageRemoteMediator1
 import com.xt.core_data.remote.ImageService
 import com.xt.core_data.room.dao.ImageDao
@@ -29,34 +30,21 @@ constructor(
     private val remoteKeyDao: RemoteKeyDao,
 ) : ImageRepository {
 
-     override suspend fun fetchImages(startPage: Int): Flow<PagingData<ImageModel>> {
-         return Pager(
-             config = PagingConfig(
-                 pageSize = LIMIT_IMAGE,
-                 enablePlaceholders = false,
-                 initialLoadSize = LIMIT_IMAGE
-             ),
-             pagingSourceFactory = { ImagePagingSource(startPage, imageService) },
-             initialKey = startPage
-         ).flow
-     }
-
-  /*  override suspend fun fetchImages(startPage: Int): Flow<PagingData<ImageModel>> {
-        val abc = Pager(
-            config = PagingConfig(pageSize = LIMIT_IMAGE),
-            remoteMediator = ImageRemoteMediator1(
-                imageDao = imageDao,
-                remoteKeyDao = remoteKeyDao,
-                imageService = imageService
-            ),
-            initialKey = 0
-        ) { imageDao.fetchImages() }.flow.map { pagingData ->
-            pagingData.map {
-                it.toImageModel()
-            }
+    @OptIn(ExperimentalPagingApi::class)
+    override suspend fun fetchImages(startPage: Int) = Pager(
+        config = PagingConfig(pageSize = LIMIT_IMAGE),
+        remoteMediator = ImageRemoteMediator1(
+            imageDao = imageDao,
+            remoteKeyDao = remoteKeyDao,
+            imageService = imageService
+        ),
+        initialKey = 0,
+        pagingSourceFactory = {
+            imageDao.fetchImages()
         }
-        return abc
-    }*/
+    ).flow.map { pagingData ->
+        pagingData.map { it.toImageModel() }
+    }
 
     override suspend fun insertImage(image: ImageModel) = flow {
         val entity = image.toImageEntity()

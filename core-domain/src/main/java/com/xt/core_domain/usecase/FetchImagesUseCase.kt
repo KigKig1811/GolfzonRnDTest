@@ -17,9 +17,4 @@ constructor(
         val response = imageRepository.fetchImages(startPage)
         response
     }
-
-    suspend fun combineImages(startPage: Int = 0,images: List<ImageModel>)= withContext(Dispatchers.IO) {
-        val response = imageRepository.fetchImages(startPage,images)
-        response
-    }
 }

@@ -11,10 +11,10 @@ interface RemoteKeyDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(keys: RemoteKey)
 
-    @Query("SELECT * FROM remote_keys WHERE `query` = :query")
+    @Query("SELECT * FROM remote_keys WHERE imageId = :query")
     suspend fun remoteKey(query: String): RemoteKey
 
-    @Query("DELETE FROM remote_keys WHERE `query` = :query")
+    @Query("DELETE FROM remote_keys WHERE imageId = :query")
     suspend fun deleteKey(query: String)
 
     @Query("DELETE FROM remote_keys")
