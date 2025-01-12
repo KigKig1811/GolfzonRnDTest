@@ -21,7 +21,7 @@ class ImagePagingSource(
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, ImageModel> {
         return try {
-            val currentPage = params.key ?: startPage
+            val currentPage = params.key ?: 0
             val response = imageService.fetchImages(page = currentPage, size = params.loadSize)
             if (response.isSuccessful) {
                 val images = response.body()?.map { it.toImageModel() }.orEmpty()

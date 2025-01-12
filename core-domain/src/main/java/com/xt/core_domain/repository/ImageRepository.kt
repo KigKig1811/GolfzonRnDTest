@@ -6,10 +6,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface ImageRepository {
     suspend fun fetchImages(startPage: Int = 0): Flow<PagingData<ImageModel>>
-    suspend fun fetchImages(
-        startPage: Int,
-        initialData: List<ImageModel>
-    ): Flow<PagingData<ImageModel>>
 
     /** local **/
     suspend fun insertImage(image: ImageModel): Flow<Boolean>

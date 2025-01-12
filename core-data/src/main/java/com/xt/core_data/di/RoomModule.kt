@@ -33,6 +33,10 @@ object DaoModule {
     @Singleton
     fun provideImageDao(db: AppDatabase) = db.imageDao()
 
+    @Provides
+    @Singleton
+    fun provideRemoteKeyDao(db: AppDatabase) = db.remoteKeyBao()
+
 }
 
 @Module

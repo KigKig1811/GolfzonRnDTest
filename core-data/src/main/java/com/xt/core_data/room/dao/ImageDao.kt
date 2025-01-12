@@ -1,5 +1,6 @@
 package com.xt.core_data.room.dao
 
+import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -17,4 +18,13 @@ interface ImageDao {
 
     @Query("DELETE FROM TABLE_IMAGE WHERE id = :id")
     fun deleteImage(id: String)
+
+    @Query("SELECT * FROM TABLE_IMAGE ORDER BY id ASC")
+    fun fetchImages(): PagingSource<Int, ImageEntity>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAll(images: List<ImageEntity>)
+
+    @Query("DELETE FROM TABLE_IMAGE")
+    suspend fun clearImages()
 }

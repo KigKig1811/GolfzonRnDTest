@@ -1,14 +1,18 @@
 package com.xt.core_data.repository
 
+import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import androidx.paging.map
 import com.xt.core_data.mapper.toImageEntity
 import com.xt.core_data.mapper.toImageModel
 import com.xt.core_data.paging.ConcatenationPagingSource
 import com.xt.core_data.paging.ImagePagingSource
+import com.xt.core_data.paging.ImageRemoteMediator1
 import com.xt.core_data.remote.ImageService
 import com.xt.core_data.room.dao.ImageDao
+import com.xt.core_data.room.dao.RemoteKeyDao
 import com.xt.core_domain.model.ImageModel
 import com.xt.core_domain.repository.ImageRepository
 import com.xt.share.LIMIT_IMAGE
@@ -21,32 +25,38 @@ class ImageRepositoryImpl
 @Inject
 constructor(
     private val imageService: ImageService,
-    private val imageDao: ImageDao
+    private val imageDao: ImageDao,
+    private val remoteKeyDao: RemoteKeyDao,
 ) : ImageRepository {
 
-    override suspend fun fetchImages(startPage: Int): Flow<PagingData<ImageModel>> {
-        return Pager(
-            config = PagingConfig(
-                pageSize = LIMIT_IMAGE,
-                enablePlaceholders = false,
-                initialLoadSize = LIMIT_IMAGE
-            ),
-            pagingSourceFactory = { ImagePagingSource(startPage, imageService) },
-            initialKey = startPage
-        ).flow
-    }
+     override suspend fun fetchImages(startPage: Int): Flow<PagingData<ImageModel>> {
+         return Pager(
+             config = PagingConfig(
+                 pageSize = LIMIT_IMAGE,
+                 enablePlaceholders = false,
+                 initialLoadSize = LIMIT_IMAGE
+             ),
+             pagingSourceFactory = { ImagePagingSource(startPage, imageService) },
+             initialKey = startPage
+         ).flow
+     }
 
-    override suspend fun fetchImages(startPage: Int,initialData: List<ImageModel>): Flow<PagingData<ImageModel>> {
-        return Pager(
-            config = PagingConfig(
-                pageSize = LIMIT_IMAGE,
-                enablePlaceholders = false,
-                initialLoadSize = LIMIT_IMAGE
+  /*  override suspend fun fetchImages(startPage: Int): Flow<PagingData<ImageModel>> {
+        val abc = Pager(
+            config = PagingConfig(pageSize = LIMIT_IMAGE),
+            remoteMediator = ImageRemoteMediator1(
+                imageDao = imageDao,
+                remoteKeyDao = remoteKeyDao,
+                imageService = imageService
             ),
-            pagingSourceFactory = { ConcatenationPagingSource(initialData, ImagePagingSource(startPage,imageService)) },
-            initialKey = startPage
-        ).flow
-    }
+            initialKey = 0
+        ) { imageDao.fetchImages() }.flow.map { pagingData ->
+            pagingData.map {
+                it.toImageModel()
+            }
+        }
+        return abc
+    }*/
 
     override suspend fun insertImage(image: ImageModel) = flow {
         val entity = image.toImageEntity()
